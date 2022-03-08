@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2014-2021 Bjoern Kimminich & the OWASP Juice Shop contributors.
+ * Copyright (c) 2014-2022 Bjoern Kimminich & the OWASP Juice Shop contributors.
  * SPDX-License-Identifier: MIT
  */
 
-import { Request, Response, NextFunction } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import fs from 'graceful-fs'
 import actualFs from 'fs'
 import yaml from 'js-yaml'
@@ -95,8 +95,9 @@ const setStatusCode = (error: any) => {
   }
 }
 
-export const retrieveCodeSnippet = async (key: string) => {
-  const challenge = challenges[key]
+export const retrieveCodeSnippet = async (key: string, pass: boolean = false) => {
+  let challenge = challenges[key]
+  if (pass) challenge = { key }
   if (challenge) {
     if (!cache[challenge.key]) {
       const match = new RegExp(`vuln-code-snippet start.*${challenge.key}`)

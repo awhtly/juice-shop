@@ -1,17 +1,18 @@
 /*
- * Copyright (c) 2014-2021 Bjoern Kimminich & the OWASP Juice Shop contributors.
+ * Copyright (c) 2014-2022 Bjoern Kimminich & the OWASP Juice Shop contributors.
  * SPDX-License-Identifier: MIT
  */
 
 import frisby = require('frisby')
-const config = require('config')
+import config = require('config')
+import { Product } from '../../data/types'
 const utils = require('../../lib/utils')
 
 const URL = 'http://localhost:3000'
 
-let blueprint
+let blueprint: string
 
-for (const product of config.get('products')) {
+for (const product of config.get<Product[]>('products')) {
   if (product.fileForRetrieveBlueprintChallenge) {
     blueprint = product.fileForRetrieveBlueprintChallenge
     break
